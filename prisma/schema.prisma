@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/selecao-globo?schema=public"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Candidate {
+  id     Int    @id @default(autoincrement())
+  name   String
+  votate Vote?
+}
+
+model Vote {
+  id          Int       @id @default(autoincrement())
+  votesCount  Int
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId Int
+  votation    Votation  @relation(fields: [votationId], references: [id])
+  votationId  Int
+}
+
+model Votation {
+  id      Int    @id @default(autoincrement())
+  votate  Vote[]
+  votates Int[]
+}
