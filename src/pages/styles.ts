@@ -34,7 +34,8 @@ export const Main = styled.main`
 
     width: 100%;
 
-    margin: 50px 100px;
+    margin: 80px 0;
+
 
     p{
         font-family: 'Open Sans', sans-serif;
@@ -42,6 +43,22 @@ export const Main = styled.main`
         font-style: normal;
         font-size: 24px;
         line-height: 28px;
+    }
+
+    .vote-button{
+        
+        border-radius: 8px;
+
+        background-color: #333333;
+        color: #FFFFFF;
+
+        border: none;
+
+        cursor: pointer;
+
+        :hover{
+            background-color: #464F51;
+        }
     }
 `
 
@@ -67,32 +84,17 @@ export const Imagem = styled.div`
 
     .first-candidate{
         height: 240px;
-        width: 300px;
+        width: 280px;
 
         background-position: -10px -193px;
     }
 
     .second-candidate{
         height: 240px;
-        width: 340px;
+        width: 280px;
 
-        background-position: -315px -198px;
+        background-position: -340px -198px;
     }
-
-    .icon-close{
-        height: 45px;
-        width: 45px;
-
-        background-position: 2px -97px;
-    }
-
-    .icon{
-        height: 40px;
-        width: 40px;
-
-        background-position: 0px 0px;
-    }
-
 
 `
 
