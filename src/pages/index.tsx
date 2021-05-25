@@ -1,8 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
 import Head from 'next/head'
 
-
+import { VotationModal } from '../components/VotationModal/index'
+import { CandidateOptions } from '../components/CandidateOptions/index'
+import { useVotation } from '../hooks/useVotation'
 import handler from './api/votation/[id]'
 import * as S from './styles'
 
@@ -17,6 +20,10 @@ export default function Home() {
 
   }, [])
 
+  const { changeModalState, modalIsOpen, selectedCandidate } = useVotation()
+  // const [showRecaptcha, setShowRecaptcha] = useState(false)
+  // const [showButton, setShowButton] = useState(false)
+
   const getOutraInfo = async () => {
     return await axios.post('/api/vote/1')
   }
@@ -25,10 +32,26 @@ export default function Home() {
     return await axios.get('/api/votation/1')
   }
 
+  const openModal = async () => {
+    changeModalState(true)
+  }
+
+  const onRequestClose = async () => {
+    changeModalState(false)
+  }
+
+
+
+  const validateRecaptcha = () => {
+    // setShowButton(true)
+    console.log('teste')
+  }
+
   return (
     <>
       <Head>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </Head>
       <S.Container>
         <S.HeaderContainer>
@@ -48,10 +71,30 @@ export default function Home() {
 
 
           <S.Button
-            onClick={() => console.log("Teste")}
+            onClick={() => {
+              openModal()
+            }}
           >
             Clique para Votar
           </S.Button>
+
+          <VotationModal
+            isOpen={modalIsOpen}
+            onClose={() => onRequestClose}
+          >
+            <CandidateOptions options={[{ id: 1, name: "participante 1" }, { id: 2, name: "participante 2" }]} />
+
+            {selectedCandidate !== 0 && (
+              <div>
+                <ReCAPTCHA
+                  sitekey="6LdiT-8aAAAAAM1XPSblmf-1hpK4TzNGPBZ3-SLP"
+                  onChange={() => validateRecaptcha()}
+                />
+              </div>
+            )}
+
+            <button className="vote-button">Envie seu voto agora</button>
+          </VotationModal>
         </S.Main>
 
 
