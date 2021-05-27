@@ -19,7 +19,7 @@ export function CandidateOptions({ options }: CandidateOptionsProps) {
     return (
         <S.Container>
             {options.map((el, idx) => (
-                <div className="container">
+                <div key={idx} className="container">
                     <p className="candidate-name">{el.name}</p>
                     <label key={idx} className="option-container">
                         <input
@@ -29,7 +29,10 @@ export function CandidateOptions({ options }: CandidateOptionsProps) {
                             type="radio"
                             value={el.id}
                             checked={selectedCandidate === el.id}
-                            onChange={() => selectCandidateOptions(el.id)} />
+                            onChange={() => {
+                                selectCandidateOptions(el.id)
+                                console.log(el.id)
+                            }} />
                         <div className="img">
                             <img className={`${el.id === 1 ? "first" : "second"}-candidate`} src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
                         </div>
