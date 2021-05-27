@@ -12,10 +12,11 @@ interface VotationModalProps {
 export function VotationModal({ isOpen, onClose, children }: VotationModalProps) {
 
 
-    const { changeModalState } = useVotation()
+    const { changeModalState, changeVotationPageModal } = useVotation()
 
     const closeModal = () => {
         changeModalState(false)
+        changeVotationPageModal(true)
     }
 
     return (
