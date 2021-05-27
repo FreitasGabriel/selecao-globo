@@ -3,9 +3,6 @@ import styled from 'styled-components'
 export const Container = styled.body`
 
 `
-
-
-
 export const HeaderContainer = styled.header`
 
     display: flex;
@@ -34,7 +31,7 @@ export const Main = styled.main`
 
     width: 100%;
 
-    margin: 80px 0;
+    margin: 40px 0;
 
 
     p{
@@ -44,22 +41,35 @@ export const Main = styled.main`
         font-size: 24px;
         line-height: 28px;
     }
+`
 
-    .vote-button{
-        
-        border-radius: 8px;
+export const VoteButton = styled.button`
 
-        background-color: #333333;
-        color: #FFFFFF;
+    border-radius: 8px;
+    height: 40px;
+    width: 150px;
 
-        border: none;
+    background-color: #333333;
+    color: #FFFFFF;
 
-        cursor: pointer;
+    border: none;
 
-        :hover{
-            background-color: #464F51;
-        }
+    cursor: pointer;
+
+    :hover{
+        background-color: #464F51;
     }
+
+    :disabled{
+        cursor: not-allowed;
+    }
+
+`
+
+export const ReCaptchaValidator = styled.div`
+
+    margin: 0 0 20px 0;
+
 `
 
 
@@ -82,14 +92,14 @@ export const Imagem = styled.div`
         background-repeat: no-repeat;
     }
 
-    .first-candidate{
+    .second-candidate{
         height: 240px;
         width: 280px;
 
         background-position: -10px -193px;
     }
 
-    .second-candidate{
+    .first-candidate{
         height: 240px;
         width: 280px;
 

@@ -8,28 +8,29 @@ import { CandidateOptions } from '../components/CandidateOptions/index'
 import { useVotation } from '../hooks/useVotation'
 import handler from './api/votation/[id]'
 import * as S from './styles'
+import { GetServerSideProps } from 'next'
 
-export default function Home() {
+interface CandidateProps {
+  id: number;
+  name: string;
+}
 
-  useEffect(() => {
-    getOutraInfo().then(resp => console.log(resp))
+interface CandidatesProps {
+  candidates: CandidateProps[]
+}
 
-    getInfo().then(resp => console.log(resp))
-
-
-
-  }, [])
+export default function Home({ candidates }: CandidatesProps) {
 
   const { changeModalState, modalIsOpen, selectedCandidate } = useVotation()
-  // const [showRecaptcha, setShowRecaptcha] = useState(false)
-  // const [showButton, setShowButton] = useState(false)
+  const [recaptchaValidate, setRecaptchaValidate] = useState(false)
 
-  const getOutraInfo = async () => {
-    return await axios.post('/api/vote/1')
-  }
+  const handleSubmitVote = async (candidateID: number) => {
 
-  const getInfo = async () => {
-    return await axios.get('/api/votation/1')
+    const payload = {
+      votationID: 1
+    }
+
+    return await axios.post(`/api/vote/${candidateID}`, payload)
   }
 
   const openModal = async () => {
@@ -40,11 +41,8 @@ export default function Home() {
     changeModalState(false)
   }
 
-
-
   const validateRecaptcha = () => {
-    // setShowButton(true)
-    console.log('teste')
+    setRecaptchaValidate(true)
   }
 
   return (
@@ -56,19 +54,15 @@ export default function Home() {
       <S.Container>
         <S.HeaderContainer>
           BIG BROTHER BRASIL
-      </S.HeaderContainer>
+        </S.HeaderContainer>
 
         <S.Main>
 
           <p>Quem deve sair?</p>
-
-
           <S.Imagem>
             <img className="first-candidate" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
             <img className="second-candidate" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
           </S.Imagem>
-
-
 
           <S.Button
             onClick={() => {
@@ -82,23 +76,45 @@ export default function Home() {
             isOpen={modalIsOpen}
             onClose={() => onRequestClose}
           >
-            <CandidateOptions options={[{ id: 1, name: "participante 1" }, { id: 2, name: "participante 2" }]} />
+            <CandidateOptions options={candidates} />
 
             {selectedCandidate !== 0 && (
-              <div>
+              <S.ReCaptchaValidator>
                 <ReCAPTCHA
                   sitekey="6LdiT-8aAAAAAM1XPSblmf-1hpK4TzNGPBZ3-SLP"
                   onChange={() => validateRecaptcha()}
                 />
-              </div>
+              </S.ReCaptchaValidator>
             )}
 
-            <button className="vote-button">Envie seu voto agora</button>
+            <S.VoteButton
+              type="submit"
+              onClick={() => handleSubmitVote(selectedCandidate)}
+              disabled={recaptchaValidate ? false : true}
+            >
+              Envie seu voto agora
+            </S.VoteButton>
+
           </VotationModal>
         </S.Main>
-
-
       </S.Container>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+
+  const votationResponse = await axios.get('http://localhost:3000/api/votation/1')
+
+  const candidatePayload = {
+    candidates: votationResponse.data.votate[0].votates
+  }
+
+  const candidateResponse = await axios.get(`http://localhost:3000/api/candidate?ids=${votationResponse.data.votate[0].votates}`)
+
+  return {
+    props: {
+      candidates: candidateResponse.data.candidates
+    }
+  }
 }
