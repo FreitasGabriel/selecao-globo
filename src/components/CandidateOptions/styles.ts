@@ -5,26 +5,52 @@ export const Container = styled.div`
 
     width: 100%;
 
-    padding: 40px 0;
+    padding: 0 0 20px 0;
 
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 
-    .options-container{
+    .container{
+        display: flex;
+        flex-direction: column;
+
+        height: 350px;
+
+    }
+
+    .candidate-name{
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+
+        margin: 5px 0;
+    }
+
+    .img-footer{
+
+        width: 290px;
+
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+    }
+
+    .option-container{
+
+        height: 250px;
 
         .radio-option:checked + div.img{
             border: 4px solid rgba(255,161,89,1);
         }
 
         div.img{
-            border: 1px solid rgba(118, 118, 118, 0.4);
+            
             border-radius: 4px;
             
 
             :hover{
                 border: 4px solid rgba(255,161,89,1);
+                cursor: pointer;
             }
         }
 
@@ -34,16 +60,14 @@ export const Container = styled.div`
             background-repeat: no-repeat;
         }
 
-        .first-candidate{
+        .second-candidate{
             height: 240px;
             width: 280px;
 
-            margin: 5px 0;
-
-            background-position: -10px -198px;
+            background-position: -10px -193px;
         }
 
-        .second-candidate{
+        .first-candidate{
             height: 240px;
             width: 280px;
 
