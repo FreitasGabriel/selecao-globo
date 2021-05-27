@@ -16,6 +16,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        overflow-y: scroll;
     }
     .react-modal-content{
 
@@ -24,10 +26,11 @@
         justify-content: center;
         align-items: center;
 
+        margin: 30px;
         width: 650px;
         background: #fff;
         padding: 10px;
-        position: relative;
+        position: absolute;
         border-radius: 0.25rem;
 
         border: 6px solid rgb(118, 118, 118);
