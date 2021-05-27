@@ -40,6 +40,7 @@ export function VotationModal({ isOpen, onClose, children }: VotationModalProps)
                 <div className="dashed-bar"></div>
                 <div className="dashed-bar"></div>
                 <div className="dashed-bar"></div>
+
             </S.HeaderContainer>
 
             {children}
