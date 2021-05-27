@@ -29,10 +29,7 @@ export function CandidateOptions({ options }: CandidateOptionsProps) {
                             type="radio"
                             value={el.id}
                             checked={selectedCandidate === el.id}
-                            onChange={() => {
-                                selectCandidateOptions(el.id)
-                                console.log(el.id)
-                            }} />
+                            onChange={() => selectCandidateOptions(el.id)} />
                         <div className="img">
                             <img className={`${el.id === 1 ? "first" : "second"}-candidate`} src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
                         </div>
