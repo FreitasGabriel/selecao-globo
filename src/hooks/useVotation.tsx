@@ -13,6 +13,9 @@ interface VotationContextData {
     changeModalState: (value: boolean) => Promise<void>
     selectedCandidate: number
     selectCandidateOptions: (value: number) => Promise<void>
+    votationPageModal: boolean;
+    changeVotationPageModal: (value: boolean) => Promise<void>
+
 }
 
 const VotationContext = createContext<VotationContextData>({} as VotationContextData)
@@ -21,6 +24,7 @@ const VotationContext = createContext<VotationContextData>({} as VotationContext
 export function VotationProvider({ children }: VotationProviderProps) {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [selectedCandidate, setSelectedCandidate] = useState(0)
+    const [votationPageModal, setChangeVotationPageModal] = useState(true)
 
     async function changeModalState(value: boolean) {
         setModalIsOpen(value)
@@ -30,8 +34,21 @@ export function VotationProvider({ children }: VotationProviderProps) {
         setSelectedCandidate(value)
     }
 
+    async function changeVotationPageModal(value: boolean) {
+        setChangeVotationPageModal(value)
+    }
+
     return (
-        <VotationContext.Provider value={{ modalIsOpen, changeModalState, selectedCandidate, selectCandidateOptions }}>
+        <VotationContext.Provider
+            value={{
+                modalIsOpen,
+                changeModalState,
+                selectedCandidate,
+                selectCandidateOptions,
+                votationPageModal,
+                changeVotationPageModal
+            }}
+        >
             {children}
         </VotationContext.Provider>
     )
