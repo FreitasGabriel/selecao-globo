@@ -18,22 +18,37 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (data) {
             const result = data.filter((el) => el.candidateId === parseInt(id as string, 10))
 
-            await prisma.vote.update({
+            const vote = await prisma.vote.findFirst({
                 where: {
-                    id: parseInt(id as string, 10),
-                },
-                data: {
-                    votesCount: data[result[0].id].votesCount + 1
+                    AND: [
+                        {
+                            votationId: parseInt(votationID as string, 10)
+                        },
+                        {
+                            candidateId: result[0].candidateId
+                        }
+                    ]
                 }
             })
 
+            if (vote) {
+                await prisma.vote.update({
+                    where: {
+                        id: vote.id,
+                    },
+                    data: {
+                        votesCount: vote.votesCount + 1
+                    }
+                })
+            }
         } else {
+
             return res.status(404).json({ message: 'Register not found.' })
         }
 
         return res.status(201).json({ message: 'Vote computed with success.' })
-
     } catch (error) {
+
         return res.status(error.status).json({ message: 'Fail on computed the vote.' })
     }
 

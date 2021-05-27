@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
 import Head from 'next/head'
+import { GetServerSideProps } from 'next'
 
 import { VotationModal } from '../components/VotationModal/index'
-import { CandidateOptions } from '../components/CandidateOptions/index'
+import { Votation } from '../components/Votation/index'
 import { useVotation } from '../hooks/useVotation'
-import handler from './api/votation/[id]'
 import * as S from './styles'
-import { GetServerSideProps } from 'next'
+
 
 interface CandidateProps {
   id: number;
@@ -21,17 +20,7 @@ interface CandidatesProps {
 
 export default function Home({ candidates }: CandidatesProps) {
 
-  const { changeModalState, modalIsOpen, selectedCandidate } = useVotation()
-  const [recaptchaValidate, setRecaptchaValidate] = useState(false)
-
-  const handleSubmitVote = async (candidateID: number) => {
-
-    const payload = {
-      votationID: 1
-    }
-
-    return await axios.post(`/api/vote/${candidateID}`, payload)
-  }
+  const { changeModalState, modalIsOpen, votationPageModal } = useVotation()
 
   const openModal = async () => {
     changeModalState(true)
@@ -41,9 +30,6 @@ export default function Home({ candidates }: CandidatesProps) {
     changeModalState(false)
   }
 
-  const validateRecaptcha = () => {
-    setRecaptchaValidate(true)
-  }
 
   return (
     <>
@@ -76,24 +62,13 @@ export default function Home({ candidates }: CandidatesProps) {
             isOpen={modalIsOpen}
             onClose={() => onRequestClose}
           >
-            <CandidateOptions options={candidates} />
+            {votationPageModal ? (
+              <Votation candidates={candidates} />
 
-            {selectedCandidate !== 0 && (
-              <S.ReCaptchaValidator>
-                <ReCAPTCHA
-                  sitekey="6LdiT-8aAAAAAM1XPSblmf-1hpK4TzNGPBZ3-SLP"
-                  onChange={() => validateRecaptcha()}
-                />
-              </S.ReCaptchaValidator>
+            ) : (
+              <h1>Teste</h1>
             )}
 
-            <S.VoteButton
-              type="submit"
-              onClick={() => handleSubmitVote(selectedCandidate)}
-              disabled={recaptchaValidate ? false : true}
-            >
-              Envie seu voto agora
-            </S.VoteButton>
 
           </VotationModal>
         </S.Main>
