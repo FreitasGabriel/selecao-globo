@@ -6,21 +6,24 @@ const prisma = new PrismaClient()
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { id } = req.query
+    const { votationID } = req.body
 
     try {
-        const data = await prisma.vote.findFirst({
+        const data = await prisma.vote.findMany({
             where: {
-                id: parseInt(id as string, 10)
+                votationId: parseInt(votationID as string, 10)
             }
         })
 
         if (data) {
+            const result = data.filter((el) => el.candidateId === parseInt(id as string, 10))
+
             await prisma.vote.update({
                 where: {
                     id: parseInt(id as string, 10),
                 },
                 data: {
-                    votesCount: data.votesCount + 1
+                    votesCount: data[result[0].id].votesCount + 1
                 }
             })
 
