@@ -4,10 +4,17 @@ import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 
 import { VotationModal } from '../components/VotationModal/index'
-import { Votation } from '../components/Votation/index'
+import { VotationPage } from '../components/Votation/index'
+import { ResultPage } from '../components/Result/index'
 import { useVotation } from '../hooks/useVotation'
 import * as S from './styles'
 
+interface VotationProps {
+  id: number;
+  votesCount: number;
+  candidateId: number;
+  votationId: number;
+}
 
 interface CandidateProps {
   id: number;
@@ -15,10 +22,11 @@ interface CandidateProps {
 }
 
 interface CandidatesProps {
-  candidates: CandidateProps[]
+  candidates: CandidateProps[];
+  votation: VotationProps[];
 }
 
-export default function Home({ candidates }: CandidatesProps) {
+export default function Home({ candidates, votation }: CandidatesProps) {
 
   const { changeModalState, modalIsOpen, votationPageModal } = useVotation()
 
@@ -63,10 +71,10 @@ export default function Home({ candidates }: CandidatesProps) {
             onClose={() => onRequestClose}
           >
             {votationPageModal ? (
-              <Votation candidates={candidates} />
+              <VotationPage candidates={candidates} />
 
             ) : (
-              <h1>Teste</h1>
+              <ResultPage vote={votation} />
             )}
 
 
@@ -81,15 +89,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const votationResponse = await axios.get('http://localhost:3000/api/votation/1')
 
-  const candidatePayload = {
-    candidates: votationResponse.data.votate[0].votates
-  }
+  const votationInfo = await axios.get('http://localhost:3000/api/result/1')
 
-  const candidateResponse = await axios.get(`http://localhost:3000/api/candidate?ids=${votationResponse.data.votate[0].votates}`)
+  const candidateResponse = await axios.get(`http://localhost:3000/api/candidates?ids=${votationResponse.data.votate[0].votates}`)
 
   return {
     props: {
-      candidates: candidateResponse.data.candidates
+      candidates: candidateResponse.data.candidates,
+      votation: votationInfo.data
     }
   }
 }
