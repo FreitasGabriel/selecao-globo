@@ -38,7 +38,7 @@ export function VotationPage({ candidates }: VotationProps) {
     }
 
     return (
-        <>
+        <S.Container>
             <CandidateOptions options={candidates} />
 
             {selectedCandidate !== 0 && (
@@ -50,13 +50,15 @@ export function VotationPage({ candidates }: VotationProps) {
                 </S.ReCaptchaValidator>
             )}
 
-            <S.VoteButton
-                type="submit"
-                onClick={() => handleSubmitVote(selectedCandidate)}
-                disabled={recaptchaValidate ? false : true}
-            >
-                Envie seu voto agora
-            </S.VoteButton>
-        </>
+            <div className="button-container">
+                <S.VoteButton
+                    type="submit"
+                    onClick={() => handleSubmitVote(selectedCandidate)}
+                    disabled={recaptchaValidate ? false : true}
+                >
+                    Envie seu voto agora
+                </S.VoteButton>
+            </div>
+        </S.Container>
     )
 }
