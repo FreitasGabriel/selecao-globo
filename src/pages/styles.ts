@@ -85,9 +85,7 @@ export const Imagem = styled.div`
     margin: 40px 0;
     
     .first-candidate, 
-    .second-candidate, 
-    .icon-close, 
-    .icon {
+    .second-candidate{
         background-image: url('images/sprite.png');
         background-repeat: no-repeat;
     }
