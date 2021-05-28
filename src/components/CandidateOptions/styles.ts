@@ -44,6 +44,8 @@ export const Container = styled.div`
         }
 
         div.img{
+
+            border: 4px solid rgba(224, 224, 224, 0.95);
             
             border-radius: 4px;
             
@@ -58,6 +60,11 @@ export const Container = styled.div`
         .second-candidate {
             background-image: url('images/sprite.png');
             background-repeat: no-repeat;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
         }
 
         .second-candidate{
