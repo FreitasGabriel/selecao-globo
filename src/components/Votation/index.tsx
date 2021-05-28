@@ -17,7 +17,7 @@ interface VotationProps {
 }
 
 
-export function Votation({ candidates }: VotationProps) {
+export function VotationPage({ candidates }: VotationProps) {
 
     const { selectedCandidate, changeVotationPageModal } = useVotation()
     const [recaptchaValidate, setRecaptchaValidate] = useState(false)
@@ -30,12 +30,8 @@ export function Votation({ candidates }: VotationProps) {
 
         const response = await axios.post(`/api/vote/${candidateID}`, payload)
 
-        console.log("statrs", response.status)
-
         if (response.status === 201) changeVotationPageModal(false)
-
     }
-
 
     const validateRecaptcha = () => {
         setRecaptchaValidate(true)
