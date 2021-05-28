@@ -41,14 +41,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     }
                 })
             }
-        } else {
 
+        } else {
             return res.status(404).json({ message: 'Register not found.' })
         }
 
         return res.status(201).json({ message: 'Vote computed with success.' })
-    } catch (error) {
 
+    } catch (error) {
         return res.status(error.status).json({ message: 'Fail on computed the vote.' })
     }
 
