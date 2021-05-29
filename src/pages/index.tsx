@@ -9,13 +9,6 @@ import { ResultPage } from '../components/Result/index'
 import { useVotation } from '../hooks/useVotation'
 import * as S from './styles'
 
-interface VotationProps {
-  id: number;
-  votesCount: number;
-  candidateId: number;
-  votationId: number;
-}
-
 interface CandidateProps {
   id: number;
   name: string;
@@ -23,10 +16,9 @@ interface CandidateProps {
 
 interface CandidatesProps {
   candidates: CandidateProps[];
-  votation: VotationProps[];
 }
 
-export default function Home({ candidates, votation }: CandidatesProps) {
+export default function Home({ candidates }: CandidatesProps) {
 
   const { changeModalState, modalIsOpen, votationPageModal } = useVotation()
 
@@ -74,7 +66,7 @@ export default function Home({ candidates, votation }: CandidatesProps) {
               <VotationPage candidates={candidates} />
 
             ) : (
-              <ResultPage vote={votation} />
+              <ResultPage />
             )}
 
 
@@ -89,14 +81,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const votationResponse = await axios.get('http://localhost:3000/api/votation/1')
 
-  const votationInfo = await axios.get('http://localhost:3000/api/result/1')
-
   const candidateResponse = await axios.get(`http://localhost:3000/api/candidates?ids=${votationResponse.data.votate[0].votates}`)
 
   return {
     props: {
       candidates: candidateResponse.data.candidates,
-      votation: votationInfo.data
     }
   }
 }
