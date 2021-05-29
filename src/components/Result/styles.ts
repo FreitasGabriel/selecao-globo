@@ -36,33 +36,34 @@ export const Container = styled.section`
 
         .second-candidate{
             height: 240px;
-            width: 240px;
+            width: 220px;
 
             background-position: -30px -193px;
         }
 
         .first-candidate{
             height: 240px;
-            width: 240px;
+            width: 220px;
 
             background-position: -360px -198px;
         }
 
         .countdown-container{
 
-            padding-top: 40px;
+            padding-top: 160px;
 
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
 
-            p{
+            .text-countdown{
                 font-family: 'Open Sans', sans-serif;
                 font-size: 12px;
                 font-weight: 400px;
                 font-style: normal;
                 color: rgba(189, 189, 189, 1);
+
+                margin: 0 0;
 
             }
 
