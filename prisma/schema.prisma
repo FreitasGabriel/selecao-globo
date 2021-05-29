@@ -21,12 +21,10 @@ model Vote {
   votesCount  Int
   candidate   Candidate @relation(fields: [candidateId], references: [id])
   candidateId Int
-  votation    Votation  @relation(fields: [votationId], references: [id])
   votationId  Int
 }
 
 model Votation {
-  id      Int    @id @default(autoincrement())
-  votate  Vote[]
+  id      Int   @id @default(autoincrement())
   votates Int[]
 }
