@@ -3,7 +3,6 @@
 # dependencies
 /node_modules
 /.history
-/prisma/migrations
 /.next
 /.pnp
 .pnp.js
