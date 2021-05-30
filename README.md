@@ -12,6 +12,11 @@ make run
 
 ### Em um outro terminal, execute:
 
+- Instalar bibliotecas do projeto:
+```bash
+yarn install
+```
+
 - Instanciar client do prisma:
 ```bash
 yarn prisma generate
@@ -25,6 +30,11 @@ yarn prisma migrate dev --name init_database
 - Executar inserção de informações do banco:
 ```bash
 ts-node src/services/script.ts
+```
+
+- Executar aplicação:
+```bash
+yarn dev
 ```
 
 ## :book: Endpoints
