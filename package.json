@@ -8,12 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
-    "@prisma/client": "2.22.1",
+    "@prisma/client": "^2.23.0",
     "@types/react-google-recaptcha": "^2.1.0",
     "@types/react-modal": "^3.12.0",
     "@types/styled-components": "^5.1.9",
     "axios": "^0.21.1",
     "next": "10.2.0",
+    "prisma": "^2.23.0",
     "react": "17.0.2",
     "react-countdown": "^2.3.2",
     "react-dom": "17.0.2",
@@ -24,7 +25,6 @@
   "devDependencies": {
     "@types/node": "^15.3.0",
     "@types/react": "^17.0.5",
-    "prisma": "2.22.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   }

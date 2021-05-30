@@ -20,13 +20,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
 
-    const votate = await prisma.votation.findMany({
+    const votates = await prisma.votation.findMany({
       where: {
         id: parseInt(id as string, 10)
       }
     })
 
-    return res.status(200).json({ votate: votate })
+    return res.json({ votate: votates })
 
   } catch (error) {
 

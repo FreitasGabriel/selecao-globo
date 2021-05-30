@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432/selecao-globo?schema=public"
+  url      = "postgresql://adpost:adpost@localhost:5432/selecao-globo?schema=public"
 }
 
 generator client {

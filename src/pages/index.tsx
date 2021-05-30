@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
@@ -17,6 +16,16 @@ interface CandidateProps {
 interface CandidatesProps {
   candidates: CandidateProps[];
 }
+
+interface VotationProps {
+  id: number;
+  votates: number[]
+}
+
+interface Votation {
+  votate: VotationProps[]
+}
+
 
 export default function Home({ candidates }: CandidatesProps) {
 
@@ -69,7 +78,6 @@ export default function Home({ candidates }: CandidatesProps) {
               <ResultPage />
             )}
 
-
           </VotationModal>
         </S.Main>
       </S.Container>
@@ -77,11 +85,14 @@ export default function Home({ candidates }: CandidatesProps) {
   )
 }
 
+
+
+
 export const getServerSideProps: GetServerSideProps = async () => {
 
-  const votationResponse = await axios.get('http://localhost:3000/api/votation/1')
+  const votationResponse = await axios.get<Votation>('http://localhost:3000/api/votation/1')
 
-  const candidateResponse = await axios.get(`http://localhost:3000/api/candidates?ids=${votationResponse.data.votate[0].votates}`)
+  const candidateResponse = await axios.get<CandidatesProps>(`http://localhost:3000/api/candidates?ids=${votationResponse.data.votate[0].votates}`)
 
   return {
     props: {
