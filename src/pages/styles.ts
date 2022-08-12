@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.body`
 
 `
-export const HeaderContainer = styled.header`
+export const HeaderTitle = styled.header`
 
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@ export const HeaderContainer = styled.header`
 
 `
 
-export const Main = styled.main`
+export const Wrapper = styled.main`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,7 +34,7 @@ export const Main = styled.main`
     margin: 40px 0;
 
 
-    p{
+    h2{
         font-family: 'Open Sans', sans-serif;
         font-weight: 400;
         font-style: normal;
@@ -67,13 +67,11 @@ export const VoteButton = styled.button`
 `
 
 export const ReCaptchaValidator = styled.div`
-
     margin: 0 0 20px 0;
-
 `
 
 
-export const Imagem = styled.div`
+export const ImagesWrapper = styled.div`
 
     display: flex;
     flex-direction: row;
@@ -106,9 +104,17 @@ export const Imagem = styled.div`
 
 `
 
+export const ButtonWrapper = styled.div`
+
+    display: flex;
+    justify-content: center;
+
+    width: 50%;
+`;
+
 export const Button = styled.button`
 
-    width: 160px;
+    width: 20%;
     height: 50px;
     border-radius: 8px;
 

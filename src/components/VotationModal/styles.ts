@@ -53,13 +53,12 @@ export const HeaderContainer = styled.header`
 
             margin-left: 10px;
 
-        strong{
-            color: #000000;
+            strong{
+                color: #000000;
+            }
         }
-    }
 
         .icon{
-
             height: 40px;
             width: 40px;
 

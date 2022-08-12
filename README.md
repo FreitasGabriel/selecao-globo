@@ -5,7 +5,7 @@
 
 ### Para rodar o projeto execute os seguintes comandos:
 
-- Levantar container com o banco de dados:
+- Levantar container docker com o banco de dados:
 ```bash
 make run
 ```
@@ -29,7 +29,7 @@ yarn prisma migrate dev --name init_database
 
 - Executar inserção de informações do banco:
 ```bash
-ts-node src/services/script.ts
+ts-node src/service/script.ts
 ```
 
 - Executar aplicação:

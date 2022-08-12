@@ -27,7 +27,7 @@ export const Container = styled.div`
         margin: 5px 0;
     }
 
-    .img-footer{
+    .votation-info{
 
         width: 290px;
 

@@ -1,64 +1,47 @@
-import { useState } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
-import axios from 'axios'
+import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
-import { useVotation } from '../../hooks/useVotation'
-import { CandidateOptions } from '../../components/CandidateOptions/index'
+import { useVotation } from "../../context/useVotation";
+import { CandidateOptions } from "../../components/CandidateOptions/index";
 
-import * as S from './styles'
+import { submitVote } from "../../services/votes";
 
-interface CandidatesProps {
-    id: number;
-    name: string;
-}
+import { CandidatesProps } from "../../types";
 
-interface VotationProps {
-    candidates: CandidatesProps[];
-}
+import { Container, VoteButton, ReCaptchaValidator } from "./styles";
 
+export function VotationPage({ candidates }: CandidatesProps) {
+  const { selectedCandidate, changeVotationPageModal } = useVotation();
+  const [recaptchaValidate, setRecaptchaValidate] = useState(false);
 
-export function VotationPage({ candidates }: VotationProps) {
+  const handleSubmitVote = async (candidateID: number) => {
+    const status = await submitVote(candidateID);
 
-    const { selectedCandidate, changeVotationPageModal } = useVotation()
-    const [recaptchaValidate, setRecaptchaValidate] = useState(false)
+    if (status === 201) changeVotationPageModal(false);
+  };
 
-    const handleSubmitVote = async (candidateID: number) => {
+  return (
+    <Container>
+      <CandidateOptions candidates={candidates} />
 
-        const payload = {
-            votationID: 1
-        }
+      {selectedCandidate !== 0 && (
+        <ReCaptchaValidator>
+          <ReCAPTCHA
+            sitekey="6LdiT-8aAAAAAM1XPSblmf-1hpK4TzNGPBZ3-SLP"
+            onChange={() => setRecaptchaValidate(true)}
+          />
+        </ReCaptchaValidator>
+      )}
 
-        const response = await axios.post(`/api/vote/${candidateID}`, payload)
-
-        if (response.status === 201) changeVotationPageModal(false)
-    }
-
-    const validateRecaptcha = () => {
-        setRecaptchaValidate(true)
-    }
-
-    return (
-        <S.Container>
-            <CandidateOptions options={candidates} />
-
-            {selectedCandidate !== 0 && (
-                <S.ReCaptchaValidator>
-                    <ReCAPTCHA
-                        sitekey="6LdiT-8aAAAAAM1XPSblmf-1hpK4TzNGPBZ3-SLP"
-                        onChange={() => validateRecaptcha()}
-                    />
-                </S.ReCaptchaValidator>
-            )}
-
-            <div className="button-container">
-                <S.VoteButton
-                    type="submit"
-                    onClick={() => handleSubmitVote(selectedCandidate)}
-                    disabled={recaptchaValidate ? false : true}
-                >
-                    Envie seu voto agora
-                </S.VoteButton>
-            </div>
-        </S.Container>
-    )
+      <div className="button-container">
+        <VoteButton
+          type="submit"
+          onClick={() => handleSubmitVote(selectedCandidate)}
+          disabled={recaptchaValidate ? false : true}
+        >
+          Envie seu voto agora
+        </VoteButton>
+      </div>
+    </Container>
+  );
 }

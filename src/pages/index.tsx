@@ -1,102 +1,75 @@
-import axios from 'axios'
-import Head from 'next/head'
-import { GetServerSideProps } from 'next'
+import axios from "axios";
+import { GetServerSideProps } from "next";
 
-import { VotationModal } from '../components/VotationModal/index'
-import { VotationPage } from '../components/Votation/index'
-import { ResultPage } from '../components/Result/index'
-import { useVotation } from '../hooks/useVotation'
-import * as S from './styles'
+import { VotationModal } from "../components/VotationModal/index";
+import { VotationPage } from "../components/Votation/index";
+import { ResultPage } from "../components/Result/index";
+import { CandidateImage } from "../components/CandidateImage/index";
 
-interface CandidateProps {
-  id: number;
-  name: string;
-}
+import { useVotation } from "../context/useVotation";
 
-interface CandidatesProps {
-  candidates: CandidateProps[];
-}
+import { CandidatesProps, Votation } from "../types/index";
 
-interface VotationProps {
-  id: number;
-  votates: number[]
-}
-
-interface Votation {
-  votate: VotationProps[]
-}
-
+import {
+  Button,
+  HeaderTitle,
+  Wrapper,
+  ImagesWrapper,
+  Container,
+  ButtonWrapper,
+} from "./styles";
 
 export default function Home({ candidates }: CandidatesProps) {
-
-  const { changeModalState, modalIsOpen, votationPageModal } = useVotation()
-
-  const openModal = async () => {
-    changeModalState(true)
-  }
-
-  const onRequestClose = async () => {
-    changeModalState(false)
-  }
-
+  const { changeModalState, modalIsOpen, votationPageModal } = useVotation();
 
   return (
-    <>
-      <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-      </Head>
-      <S.Container>
-        <S.HeaderContainer>
-          BIG BROTHER BRASIL
-        </S.HeaderContainer>
+    <Container>
+      <HeaderTitle>BIG BROTHER BRASIL</HeaderTitle>
 
-        <S.Main>
+      <Wrapper>
+        <h2>Quem deve sair?</h2>
+        <ImagesWrapper>
+          <CandidateImage candidate="first-candidate" />
+          <CandidateImage candidate="second-candidate" />
+        </ImagesWrapper>
 
-          <p>Quem deve sair?</p>
-          <S.Imagem>
-            <img className="first-candidate" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
-            <img className="second-candidate" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
-          </S.Imagem>
-
-          <S.Button
+        <ButtonWrapper>
+          <Button
             onClick={() => {
-              openModal()
+              changeModalState(true);
             }}
           >
-            Clique para Votar
-          </S.Button>
+            VOTE
+          </Button>
+        </ButtonWrapper>
 
-          <VotationModal
-            isOpen={modalIsOpen}
-            onClose={() => onRequestClose}
-          >
-            {votationPageModal ? (
-              <VotationPage candidates={candidates} />
-
-            ) : (
-              <ResultPage />
-            )}
-
-          </VotationModal>
-        </S.Main>
-      </S.Container>
-    </>
-  )
+        <VotationModal
+          isOpen={modalIsOpen}
+          onClose={() => changeModalState(false)}
+        >
+          {votationPageModal ? (
+            <VotationPage candidates={candidates} />
+          ) : (
+            <ResultPage />
+          )}
+        </VotationModal>
+      </Wrapper>
+    </Container>
+  );
 }
 
-
-
-
 export const getServerSideProps: GetServerSideProps = async () => {
+  const votationResponse = await axios.get<Votation>(
+    "http://localhost:3000/api/votation/1"
+  );
 
-  const votationResponse = await axios.get<Votation>('http://localhost:3000/api/votation/1')
-
-  const candidateResponse = await axios.get<CandidatesProps>(`http://localhost:3000/api/candidates?ids=${votationResponse.data.votate[0].votates}`)
+  const candidateResponse = await axios.get<CandidatesProps>(
+    `http://localhost:3000/api/candidates?ids=${votationResponse.data.votate[0].votates}`
+  );
 
   return {
     props: {
       candidates: candidateResponse.data.candidates,
-    }
-  }
-}
+    },
+  };
+};
