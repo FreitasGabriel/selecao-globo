@@ -27,7 +27,7 @@ export function PercentageBar() {
   }, []);
 
   return (
-    <Container>
+    <Container data-testid="percentage__test">
       <p>
         <span className="bar">
           <p className="first-per">{firsPer}%</p>

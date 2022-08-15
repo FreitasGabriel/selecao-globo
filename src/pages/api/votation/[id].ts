@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.json({ votate: votates })
 
-  } catch (error) {
+  } catch (error: any) {
 
     return res.status(error.status).json({ message: "Votation not found!" })
   }

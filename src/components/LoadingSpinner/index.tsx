@@ -1,10 +1,10 @@
 import React from "react";
 import { SpinnerWrapper } from "./styles";
 
-export const LoadingSpinner = () => {
+export function LoadingSpinner() {
   return (
-    <SpinnerWrapper>
+    <SpinnerWrapper data-testid="spinner__test">
       <div className="loading-spinner"></div>
     </SpinnerWrapper>
   );
-};
+}

@@ -5,8 +5,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { ids } = req.query
 
-    const firstID = ids.slice(0, 1)
-    const secondID = ids.slice(2, 3)
+    const firstID = ids?.slice(0, 1)
+    const secondID = ids?.slice(2, 3)
 
     try {
 
@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         return res.json({ candidates: response })
-    } catch (error) {
+    } catch (error: any) {
         return res.status(error.status).json({ message: 'Fail on get the candidates.' })
     }
 

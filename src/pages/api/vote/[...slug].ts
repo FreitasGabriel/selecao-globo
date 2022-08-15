@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { slug } = req.query
 
-    const votationId = slug[1]
+    const votationId = slug?.[1]
 
     try {
         const voteResponse = await prisma.vote.findMany({
@@ -26,13 +26,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
         })
 
-        voteResponse.map((el) => {
+        voteResponse.map((el: any) => {
             candidate.push({ id: el.id, candidateId: el.candidateId, name: el.candidate.name, countVotes: el.votesCount })
         })
 
         return res.status(201).json({ votesCount: candidate })
 
-    } catch (error) {
+    } catch (error: any) {
         return res.status(error.status).json({ message: 'Fail on get candidates votesCount.' })
     }
 

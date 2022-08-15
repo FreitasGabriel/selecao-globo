@@ -9,7 +9,11 @@ export function CandidateOptions({ candidates }: CandidatesProps) {
   return (
     <Container>
       {candidates.map((candidate, idx) => (
-        <div key={idx} className="container">
+        <div
+          key={idx}
+          className="container"
+          data-testid="candidates-container__test"
+        >
           <h1 className="candidate-name">{candidate.name}</h1>
           <label key={idx} className="option-container">
             <input

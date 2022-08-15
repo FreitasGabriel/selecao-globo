@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res.status(201).json({ votes: vote })
 
-    } catch (error) {
+    } catch (error: any) {
         return res.status(error.status).json({ message: 'Error on get votation info' })
     }
 

@@ -6,7 +6,7 @@ interface CandidateImageProps {
 
 export const CandidateImage = ({ candidate }: CandidateImageProps) => {
   return (
-    <CandidateWrapper>
+    <CandidateWrapper data-testid="candidate-img__test">
       {candidate === "first-candidate" ? (
         <img
           className="first-candidate"

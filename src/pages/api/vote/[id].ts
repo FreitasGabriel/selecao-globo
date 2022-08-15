@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         if (data) {
-            const result = data.filter((el) => el.candidateId === parseInt(id as string, 10))
+            const result = data.filter((el: any) => el.candidateId === parseInt(id as string, 10))
 
             const vote = await prisma.vote.findFirst({
                 where: {
@@ -46,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res.status(201).json({ message: 'Vote computed with success.' })
 
-    } catch (error) {
+    } catch (error: any) {
         return res.status(error.status).json({ message: 'Fail on computed the vote.' })
     }
 
